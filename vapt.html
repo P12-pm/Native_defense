@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAPT Services | NATIVEDEFENCE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #0037ff; /* Cyber Neon Green */
+            --secondary: #0077ff; /* Cyber Blue */
+            --alert: #ff3366; /* Critical Alert Red */
+            --bg-dark: #0a0b10;
+            --bg-card: #15171e;
+            --text-light: #e0e6ed;
+            --text-gray: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- NAVIGATION --- */
+        /* --- UPDATED NAVIGATION CSS --- */
+header {
+    background: rgba(10, 11, 16, 0.95);
+    padding: 0 5%; /* Adjusted padding for better vertical alignment */
+    height: 80px;  /* Fixed height for stability */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 1px;
+}
+.logo span { color: var(--primary); }
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    height: 100%;
+    align-items: center;
+}
+
+/* Main Nav Item Style */
+.nav-links li {
+    position: relative; /* Essential for positioning the dropdown */
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links > li > a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-gray);
+    padding: 10px 0;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space for the dropdown arrow */
+}
+
+.nav-links > li > a:hover,
+.nav-links > li > a.active {
+    color: var(--primary);
+}
+
+/* Dropdown Arrow Icon */
+.fa-chevron-down {
+    font-size: 0.7rem;
+    transition: transform 0.3s;
+}
+
+.nav-links li:hover .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* --- DROPDOWN MENU STYLES --- */
+.dropdown-menu {
+    position: absolute;
+    top: 80px; /* Matches header height */
+    left: 0;
+    background: var(--bg-card);
+    min-width: 220px;
+    border-top: 2px solid var(--primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    border-radius: 0 0 5px 5px;
+    display: block; /* Overrides default ul display */
+    padding: 10px 0;
+}
+
+/* Show Dropdown on Hover */
+.nav-links li:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Dropdown Links */
+.dropdown-menu li {
+    display: block;
+    height: auto;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 12px 20px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
+    transition: 0.3s;
+}
+
+.dropdown-menu li a:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--primary);
+    border-left: 3px solid var(--primary);
+    padding-left: 25px; /* Slide effect */
+}
+
+/* Button Reset */
+.cta-btn-nav {
+    padding: 8px 20px !important;
+    border: 1px solid var(--primary);
+    color: var(--primary) !important;
+    border-radius: 4px;
+    height: auto;
+}
+.cta-btn-nav:hover {
+    background: var(--primary);
+    color: var(--bg-dark) !important;
+}
+        /* --- HERO SECTION --- */
+        .vapt-hero {
+            padding: 140px 5% 60px;
+            background: radial-gradient(circle at top left, #1a1d29 0%, var(--bg-dark) 70%);
+            text-align: center;
+        }
+
+        .vapt-hero h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .vapt-hero p {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        /* --- VAPT SERVICES DUAL GRID --- */
+        .services-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 0 10% 80px;
+        }
+
+        .service-block {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            border-top: 4px solid var(--secondary);
+            position: relative;
+        }
+
+        .service-block h2 {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .service-block i { color: var(--secondary); font-size: 1.5rem; }
+
+        /* --- PROCESS WORKFLOW --- */
+        .process-section {
+            background: #0d0f14;
+            padding: 80px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+        .section-title span { color: var(--primary); }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .process-step {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            transition: 0.3s;
+        }
+        
+        .process-step:hover { transform: translateY(-5px); border-color: var(--primary); }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: var(--bg-dark);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+        }
+
+        .process-step h3 {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--text-light);
+        }
+
+        .process-step p { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 8px; }
+        .process-step strong { color: var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- INDUSTRIES --- */
+        .industry-grid {
+            padding: 80px 10%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .industry-card {
+            text-align: center;
+            padding: 30px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .industry-card i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .industry-card h3 { margin-bottom: 10px; font-family: 'Rajdhani', sans-serif; }
+        .industry-card p { font-size: 0.9rem; color: var(--text-gray); }
+
+        /* --- THREAT INTEL SECTION --- */
+        .intel-section {
+            background: #0d0f14;
+            padding: 80px 5%;
+        }
+
+        .intel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .intel-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .intel-card:hover { border-color: var(--alert); }
+
+        .intel-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cve-id { font-family: 'Courier New', monospace; font-weight: 700; color: var(--text-light); }
+        
+        .severity {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .sev-critical { background: rgba(255, 51, 102, 0.2); color: var(--alert); border: 1px solid var(--alert); }
+        .sev-high { background: rgba(255, 165, 0, 0.2); color: orange; border: 1px solid orange; }
+
+        .intel-body { padding: 20px; }
+        .intel-body h4 { font-size: 1rem; margin-bottom: 10px; color: var(--primary); }
+        
+        .intel-detail {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 8px;
+        }
+        .intel-detail span { color: var(--text-light); font-weight: 600; }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #050507;
+            padding: 60px 5% 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-family: 'Rajdhani', sans-serif;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 10px;
+        }
+        .contact-info i { color: var(--primary); margin-top: 3px;}
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .services-split { grid-template-columns: 1fr; padding: 0 5% 40px; }
+            .vapt-hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+    <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            
+            <li>
+                <a href="nativesoc.html" class="active">NativeSOC <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="NativeARchitecture.html"></a>NativeSOC Architecture </li>
+                    <li><a href="NativeApproach.html">NativeSOC Approach</a></li>
+                    <li><a href="NativeFeatures.html">NativeSOC Features</a></li>
+                    <li><a href="Whynative.html"> Why NativeSOC </a></li>
+                    <li><a href="howitworks.html">How it works</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="academy.html">Academy <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="courses.html">Courses</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="vapt.html">VAPT <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="cyber.html">Cybersecurity</a></li>
+                </ul>
+            </li>
+
+            <li><a href="partners.html">Partners</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="contact.html" class="cta-btn-nav">Contact</a></li>
+        </ul>
+    </nav>
+    <div style="color: white; display: none;" class="mobile-menu"><i class="fas fa-bars"></i></div>
+</header>
+
+    <section class="vapt-hero">
+        <h1>Fortify Your Digital Defenses</h1>
+        <p>At NativeDefence, we serve as your unwavering partner in strengthening your digital security. With a well-established history of excellence in Vulnerability Assessment and Penetration Testing (VAPT), we are dedicated to safeguarding your digital assets.</p>
+    </section>
+
+    <section class="services-split">
+        <div class="service-block">
+            <h2><i class="fas fa-search"></i> Vulnerability Assessment</h2>
+            <p style="color: var(--text-gray);">Uncover vulnerabilities in your digital infrastructure proactively. Our comprehensive assessment meticulously identifies weaknesses, empowering you to address and prioritize remediation effectively for enhanced security.</p>
+        </div>
+        <div class="service-block">
+            <h2><i class="fas fa-user-secret"></i> Penetration Testing</h2>
+            <p style="color: var(--text-gray);">Our team of ethical hackers specializes in emulating real-world cyberattacks. Through Penetration Testing, we reveal vulnerabilities that automated scans might overlook, guaranteeing the fortification of your defenses.</p>
+        </div>
+    </section>
+
+    <section class="process-section">
+        <h2 class="section-title">VAPT <span>Methodology</span></h2>
+        <div class="process-grid">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3>Scope</h3>
+                <p><strong>Goal:</strong> Define boundaries and limitations.</p>
+                <p>Clearly outline systems, applications, and networks to be tested along with specific goals.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3>Info Gathering</h3>
+                <p><strong>Goal:</strong> Collect essential environment info.</p>
+                <p>Understand architecture, attack surface, and conduct initial reconnaissance.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3>Vuln Detection</h3>
+                <p><strong>Goal:</strong> Identify weaknesses & misconfigurations.</p>
+                <p>Use automated tools and manual testing to discover security issues.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h3>Analysis</h3>
+                <p><strong>Goal:</strong> Plan the penetration testing.</p>
+                <p>Evaluate potential risks and prioritize testing efforts based on gathered data.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">5</div>
+                <h3>Privilege Escalation</h3>
+                <p><strong>Goal:</strong> Gain deeper access.</p>
+                <p>Attempt to escalate privileges to assess the full extent of potential breaches.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">6</div>
+                <h3>Result Analysis</h3>
+                <p><strong>Goal:</strong> Analyze impact.</p>
+                <p>Understand the significance and potential consequences of identified weaknesses.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">7</div>
+                <h3>Reporting</h3>
+                <p><strong>Goal:</strong> Document findings.</p>
+                <p>Create a clear, actionable report for stakeholders with recommendations.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">8</div>
+                <h3>Cleanup</h3>
+                <p><strong>Goal:</strong> Restore environment.</p>
+                <p>Ensure no unintentional damage and restore changes made during testing.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="industry-grid">
+        <div class="industry-card">
+            <i class="fas fa-heartbeat"></i>
+            <h3>Healthcare</h3>
+            <p>Safeguarding patient data and ensuring compliance with strict regulations.</p>
+        </div>
+        <div class="industry-card">
+            <i class="fas fa-coins"></i>
+            <h3>Finance</h3>
+            <p>Enhance security of transactions and protect sensitive financial data.</p>
+        </div>
+        <div class="industry-card">
+            <i class="fas fa-building-columns"></i>
+            <h3>Government</h3>
+            <p>Securing critical infrastructure and protecting sensitive national data.</p>
+        </div>
+        <div class="industry-card">
+            <i class="fas fa-shopping-cart"></i>
+            <h3>E-Commerce</h3>
+            <p>Safeguarding customer data and maintaining trust in online platforms.</p>
+        </div>
+    </section>
+
+    <section class="intel-section">
+        <h2 class="section-title">Latest <span>Threat Intel</span></h2>
+        <div class="intel-grid">
+            
+            <div class="intel-card">
+                <div class="intel-header">
+                    <span class="cve-id">CVE-2023-3519</span>
+                    <span class="severity sev-critical">Critical</span>
+                </div>
+                <div class="intel-body">
+                    <h4>Citrix NetScaler Code Injection</h4>
+                    <div class="intel-detail"><span>App:</span> Citrix NetScaler ADC/Gateway</div>
+                    <div class="intel-detail"><span>Vuln:</span> Improper input validation allows code injection.</div>
+                    <div class="intel-detail"><span>Impact:</span> Remote code execution.</div>
+                    <div class="intel-detail" style="border:none;"><span>Remediation:</span> Apply latest Citrix patches.</div>
+                </div>
+            </div>
+
+            <div class="intel-card">
+                <div class="intel-header">
+                    <span class="cve-id">CVE-2023-4966</span>
+                    <span class="severity sev-critical">Critical</span>
+                </div>
+                <div class="intel-body">
+                    <h4>Citrix Buffer Overflow</h4>
+                    <div class="intel-detail"><span>App:</span> Citrix NetScaler ADC/Gateway</div>
+                    <div class="intel-detail"><span>Vuln:</span> Buffer overflow allows arbitrary code execution.</div>
+                    <div class="intel-detail"><span>Impact:</span> System crash / RCE.</div>
+                    <div class="intel-detail" style="border:none;"><span>Remediation:</span> Update per Citrix guidance.</div>
+                </div>
+            </div>
+
+            <div class="intel-card">
+                <div class="intel-header">
+                    <span class="cve-id">CVE-2023-20198</span>
+                    <span class="severity sev-critical">Critical</span>
+                </div>
+                <div class="intel-body">
+                    <h4>Cisco IOS XE Privilege Escalation</h4>
+                    <div class="intel-detail"><span>App:</span> Cisco IOS XE Software</div>
+                    <div class="intel-detail"><span>Vuln:</span> Unauthorized users can escalate privileges via Web UI.</div>
+                    <div class="intel-detail"><span>Impact:</span> Complete system compromise.</div>
+                    <div class="intel-detail" style="border:none;"><span>Remediation:</span> Apply Cisco patches.</div>
+                </div>
+            </div>
+
+            <div class="intel-card">
+                <div class="intel-header">
+                    <span class="cve-id">CVE-2023-27997</span>
+                    <span class="severity sev-critical">Critical</span>
+                </div>
+                <div class="intel-body">
+                    <h4>Fortinet SSL-VPN Overflow</h4>
+                    <div class="intel-detail"><span>App:</span> FortiOS and FortiProxy</div>
+                    <div class="intel-detail"><span>Vuln:</span> Heap-based buffer overflow.</div>
+                    <div class="intel-detail"><span>Impact:</span> Remote code execution.</div>
+                    <div class="intel-detail" style="border:none;"><span>Remediation:</span> Update per Fortinet guidance.</div>
+                </div>
+            </div>
+
+            <div class="intel-card">
+                <div class="intel-header">
+                    <span class="cve-id">CVE-2023-34362</span>
+                    <span class="severity sev-critical">Critical</span>
+                </div>
+                <div class="intel-body">
+                    <h4>MOVEit Transfer SQL Injection</h4>
+                    <div class="intel-detail"><span>App:</span> Progress MOVEit Transfer</div>
+                    <div class="intel-detail"><span>Vuln:</span> SQL injection allows unauthenticated access.</div>
+                    <div class="intel-detail"><span>Impact:</span> Data access/alteration/deletion.</div>
+                    <div class="intel-detail" style="border:none;"><span>Remediation:</span> Apply Progress patches.</div>
+                </div>
+            </div>
+
+            <div class="intel-card">
+                <div class="intel-header">
+                    <span class="cve-id">CVE-2023-22515</span>
+                    <span class="severity sev-high">High</span>
+                </div>
+                <div class="intel-body">
+                    <h4>Atlassian Broken Access Control</h4>
+                    <div class="intel-detail"><span>App:</span> Confluence Data Center</div>
+                    <div class="intel-detail"><span>Vuln:</span> Broken access control to restricted info.</div>
+                    <div class="intel-detail"><span>Impact:</span> Info disclosure.</div>
+                    <div class="intel-detail" style="border:none;"><span>Remediation:</span> Update per Atlassian guidance.</div>
+                </div>
+            </div>
+
+             <div class="intel-card">
+                <div class="intel-header">
+                    <span class="cve-id">CVE-2021-44228</span>
+                    <span class="severity sev-critical">Critical</span>
+                </div>
+                <div class="intel-body">
+                    <h4>Apache Log4j2 (Log4Shell)</h4>
+                    <div class="intel-detail"><span>App:</span> Apache Log4j2</div>
+                    <div class="intel-detail"><span>Vuln:</span> Improper input validation allows RCE.</div>
+                    <div class="intel-detail"><span>Impact:</span> Complete system compromise.</div>
+                    <div class="intel-detail" style="border:none;"><span>Remediation:</span> Update per Apache guidance.</div>
+                </div>
+            </div>
+
+            <div class="intel-card">
+                <div class="intel-header">
+                    <span class="cve-id">CVE-2023-2868</span>
+                    <span class="severity sev-critical">Critical</span>
+                </div>
+                <div class="intel-body">
+                    <h4>Barracuda ESG Input Validation</h4>
+                    <div class="intel-detail"><span>App:</span> Barracuda Email Security Gateway</div>
+                    <div class="intel-detail"><span>Vuln:</span> Input validation in email attachments.</div>
+                    <div class="intel-detail"><span>Impact:</span> Remote command execution.</div>
+                    <div class="intel-detail" style="border:none;"><span>Remediation:</span> Replace affected appliances.</div>
+                </div>
+            </div>
+
+            <div class="intel-card">
+                <div class="intel-header">
+                    <span class="cve-id">CVE-2023-32409</span>
+                    <span class="severity sev-high">High</span>
+                </div>
+                <div class="intel-body">
+                    <h4>Apple WebKit Memory Corruption</h4>
+                    <div class="intel-detail"><span>App:</span> iOS, macOS, Safari</div>
+                    <div class="intel-detail"><span>Vuln:</span> Memory corruption via malicious web content.</div>
+                    <div class="intel-detail"><span>Impact:</span> System compromise.</div>
+                    <div class="intel-detail" style="border:none;"><span>Remediation:</span> Apply Apple security updates.</div>
+                </div>
+            </div>
+
+            <div class="intel-card">
+                <div class="intel-header">
+                    <span class="cve-id">CVE-2023-23397</span>
+                    <span class="severity sev-high">High</span>
+                </div>
+                <div class="intel-body">
+                    <h4>Outlook NTLM Relay Attack</h4>
+                    <div class="intel-detail"><span>App:</span> Microsoft Outlook</div>
+                    <div class="intel-detail"><span>Vuln:</span> Steal NTLM hashes via crafted email.</div>
+                    <div class="intel-detail"><span>Impact:</span> Privilege escalation.</div>
+                    <div class="intel-detail" style="border:none;"><span>Remediation:</span> Disable NTLM / Apply patches.</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+                <p style="color: var(--text-gray); margin-top: 10px; font-size: 0.9rem;">
+                    Expert-driven Cyber Security Services for the modern digital landscape.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="nativesoc.html">NativeSOC</a></li>
+                    <li><a href="academy.html">Academy</a></li>
+                    <li><a href="vapt.html">VAPT</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> sales@nativedefence.com</p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>
+                            <strong>AHMEDABAD</strong><br>
+                            D-311 Ganesh Glory 11, Jagatpur Rd,<br> 
+                            Near BSNL Office, Off S G Highway,<br>
+                            Ahmedabad, Gujarat 382470
+                        </span>
+                    </p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>
+                            <strong>KOLKATA</strong><br>
+                            8 BECK BAGAN ROW KOLKATA - 700017
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

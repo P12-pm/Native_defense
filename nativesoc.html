@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NativeSOC Platform | Next-Gen Security</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET (MATCHING PREVIOUS DESIGN) --- */
+        :root {
+            --primary: #0037ff; /* Cyber Neon Green */
+            --secondary: #0077ff; /* Cyber Blue */
+            --bg-dark: #0a0b10;
+            --bg-card: #15171e;
+            --text-light: #e0e6ed;
+            --text-gray: #94a3b8;
+            --gradient: linear-gradient(135deg, rgba(0,255,204,0.1) 0%, rgba(0,119,255,0.1) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- NAVIGATION --- */
+       /* --- UPDATED NAVIGATION CSS --- */
+header {
+    background: rgba(10, 11, 16, 0.95);
+    padding: 0 5%; /* Adjusted padding for better vertical alignment */
+    height: 80px;  /* Fixed height for stability */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 1px;
+}
+.logo span { color: var(--primary); }
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    height: 100%;
+    align-items: center;
+}
+
+/* Main Nav Item Style */
+.nav-links li {
+    position: relative; /* Essential for positioning the dropdown */
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links > li > a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-gray);
+    padding: 10px 0;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space for the dropdown arrow */
+}
+
+.nav-links > li > a:hover,
+.nav-links > li > a.active {
+    color: var(--primary);
+}
+
+/* Dropdown Arrow Icon */
+.fa-chevron-down {
+    font-size: 0.7rem;
+    transition: transform 0.3s;
+}
+
+.nav-links li:hover .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* --- DROPDOWN MENU STYLES --- */
+.dropdown-menu {
+    position: absolute;
+    top: 80px; /* Matches header height */
+    left: 0;
+    background: var(--bg-card);
+    min-width: 220px;
+    border-top: 2px solid var(--primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    border-radius: 0 0 5px 5px;
+    display: block; /* Overrides default ul display */
+    padding: 10px 0;
+}
+
+/* Show Dropdown on Hover */
+.nav-links li:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Dropdown Links */
+.dropdown-menu li {
+    display: block;
+    height: auto;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 12px 20px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
+    transition: 0.3s;
+}
+
+.dropdown-menu li a:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--primary);
+    border-left: 3px solid var(--primary);
+    padding-left: 25px; /* Slide effect */
+}
+
+/* Button Reset */
+.cta-btn-nav {
+    padding: 8px 20px !important;
+    border: 1px solid var(--primary);
+    color: var(--primary) !important;
+    border-radius: 4px;
+    height: auto;
+}
+.cta-btn-nav:hover {
+    background: var(--primary);
+    color: var(--bg-dark) !important;
+}
+        /* --- PAGE HEADER --- */
+        .page-header {
+            margin-top: 80px;
+            padding: 60px 5% 40px;
+            text-align: center;
+            background: radial-gradient(circle at top, #1a1d29 0%, var(--bg-dark) 70%);
+        }
+
+        .page-header h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-header p {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        /* --- CORE FEATURES GRID --- */
+        .tech-stack-container {
+            padding: 20px 5% 60px;
+        }
+
+        .tech-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .tech-badge {
+            background: rgba(0, 255, 204, 0.05);
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.1);
+        }
+
+        /* --- MAIN CONTENT LAYOUT --- */
+        .content-section {
+            padding: 60px 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .text-content h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+        .text-content h2 span { color: var(--secondary); }
+        
+        .text-content p {
+            margin-bottom: 20px;
+            color: var(--text-gray);
+        }
+
+        .feature-box {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .feature-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+        }
+        .feature-list i {
+            color: var(--secondary);
+            margin-right: 15px;
+        }
+
+        /* --- TARGET VERTICALS SECTION --- */
+        .verticals-section {
+            background: #0d0f14;
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+        .section-title span { color: var(--primary); }
+
+        .verticals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .vertical-card {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vertical-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(0, 255, 204, 0.1);
+        }
+
+        .vertical-card i {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .vertical-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* --- FOOTER (MATCHING) --- */
+        footer {
+            background: #050507;
+            padding: 60px 5% 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-family: 'Rajdhani', sans-serif;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 10px;
+        }
+        .contact-info i { color: var(--primary); margin-top: 3px;}
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .content-section { grid-template-columns: 1fr; padding: 40px 5%; }
+            .page-header h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+    <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            
+            <li>
+                <a href="nativesoc.html" class="active">NativeSOC <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="NativeARchitecture.html"></a>NativeSOC Architecture </li>
+                    <li><a href="NativeApproach.html">NativeSOC Approach</a></li>
+                    <li><a href="NativeFeatures.html">NativeSOC Features</a></li>
+                    <li><a href="Whynative.html"> Why NativeSOC </a></li>
+                    <li><a href="howitworks.html">How it works</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="academy.html">Academy <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="courses.html"> Courses</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="vapt.html">VAPT <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="cyber.html">Cybersecurity</a></li>
+                </ul>
+            </li>
+
+            <li><a href="partners.html">Partners</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="contact.html" class="cta-btn-nav">Contact</a></li>
+        </ul>
+    </nav>
+    <div style="color: white; display: none;" class="mobile-menu"><i class="fas fa-bars"></i></div>
+</header>
+
+    <section class="page-header">
+        <h1>Next-Gen All-in-One Security Platform</h1>
+        <p>A unified on-prem & cloud security platform built with Artificial Intelligence, Machine Learning, and Human Intelligence.</p>
+        
+        <div class="tech-stack-container">
+            <div class="tech-badges">
+                <div class="tech-badge">SIEM</div>
+                <div class="tech-badge">XDR</div>
+                <div class="tech-badge">HIDS</div>
+                <div class="tech-badge">FIM</div>
+                <div class="tech-badge">VA</div>
+                <div class="tech-badge">XOAR</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="text-content">
+            <h2>Unified <span>Threat Defense</span></h2>
+            <p>NativeSOC is a feature-packed, Vendor Agnostic, Enterprise-ready SOC Platform. It combines data from multiple sources to provide a cohesive security ecosystem.</p>
+            <p>Our platform focuses on host-based intrusion detection, analyzing data from endpoints to identify potential threats and mitigate risk factors by providing advanced reports.</p>
+        </div>
+        <div class="feature-box">
+            <h3 style="margin-bottom: 20px; font-family: 'Rajdhani', sans-serif;">Key Capabilities</h3>
+            <ul class="feature-list">
+                <li><i class="fas fa-shield-virus"></i> Endpoint Detection & Response (EDR)</li>
+                <li><i class="fas fa-user-secret"></i> User & Entity Behavior Analytics (UEBA)</li>
+                <li><i class="fas fa-network-wired"></i> Network Traffic Analysis (NTA)</li>
+                <li><i class="fas fa-file-contract"></i> Regulatory Compliance & Audit</li>
+                <li><i class="fas fa-cloud"></i> Cloud & Container Security</li>
+                <li><i class="fas fa-brain"></i> AI & Machine Learning Integration</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="verticals-section">
+        <h2 class="section-title">Target <span>Verticals</span></h2>
+        <div class="verticals-grid">
+            <div class="vertical-card">
+                <i class="fas fa-building-columns"></i>
+                <h3>BFSI</h3>
+            </div>
+            <div class="vertical-card">
+                <i class="fas fa-coins"></i>
+                <h3>Financial Services</h3>
+            </div>
+            <div class="vertical-card">
+                <i class="fas fa-heartbeat"></i>
+                <h3>Healthcare</h3>
+            </div>
+            <div class="vertical-card">
+                <i class="fas fa-industry"></i>
+                <h3>Manufacturing</h3>
+            </div>
+            <div class="vertical-card">
+                <i class="fas fa-gavel"></i>
+                <h3>Legal & Audit Firms</h3>
+            </div>
+            <div class="vertical-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Education</h3>
+            </div>
+            <div class="vertical-card">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Retail</h3>
+            </div>
+            <div class="vertical-card">
+                <i class="fas fa-truck"></i>
+                <h3>Transportation</h3>
+            </div>
+            <div class="vertical-card">
+                <i class="fas fa-plane"></i>
+                <h3>Aviation</h3>
+            </div>
+            <div class="vertical-card">
+                <i class="fas fa-car"></i>
+                <h3>Auto Dealers</h3>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+                <p style="color: var(--text-gray); margin-top: 10px; font-size: 0.9rem;">
+                    Expert-driven Cyber Security Services for the modern digital landscape.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="nativesoc.html">NativeSOC</a></li>
+                    <li><a href="academy.html">Academy</a></li>
+                    <li><a href="vapt.html">VAPT</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> sales@nativedefence.com</p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>
+                            <strong>AHMEDABAD</strong><br>
+                            D-311 Ganesh Glory 11, Jagatpur Rd,<br> 
+                            Near BSNL Office, Off S G Highway,<br>
+                            Ahmedabad, Gujarat 382470
+                        </span>
+                    </p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>
+                            <strong>KOLKATA</strong><br>
+                            8 BECK BAGAN ROW KOLKATA - 700017
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

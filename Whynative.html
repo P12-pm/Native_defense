@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NativeSOC | Why NativeSOC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #0037ff; /* Cyber Neon Green */
+            --secondary: #0077ff; /* Cyber Blue */
+            --bg-dark: #0a0b10;
+            --bg-card: #15171e;
+            --bg-card-hover: #1f222b;
+            --text-light: #e0e6ed;
+            --text-gray: #94a3b8;
+            --gradient-blue: linear-gradient(135deg, #0077ff 0%, #00d4ff 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 50% 10%, rgba(0, 119, 255, 0.1) 0%, transparent 50%);
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- NAVIGATION CSS (Unchanged) --- */
+        header {
+            background: rgba(10, 11, 16, 0.95);
+            padding: 0 5%;
+            height: 80px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: 1px;
+        }
+        .logo span { color: var(--primary); }
+
+        .nav-links { display: flex; gap: 30px; height: 100%; align-items: center; }
+        .nav-links li { position: relative; height: 100%; display: flex; align-items: center; }
+        .nav-links > li > a { font-size: 0.9rem; font-weight: 500; color: var(--text-gray); padding: 10px 0; transition: 0.3s; display: flex; align-items: center; gap: 5px; }
+        .nav-links > li > a:hover, .nav-links > li > a.active { color: var(--primary); }
+        .fa-chevron-down { font-size: 0.7rem; transition: transform 0.3s; }
+        .nav-links li:hover .fa-chevron-down { transform: rotate(180deg); }
+        
+        .dropdown-menu {
+            position: absolute; top: 80px; left: 0; background: var(--bg-card); min-width: 220px;
+            border-top: 2px solid var(--primary); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease;
+            border-radius: 0 0 5px 5px; display: block; padding: 10px 0;
+        }
+        .nav-links li:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-menu li { display: block; height: auto; }
+        .dropdown-menu li a { display: block; padding: 12px 20px; color: var(--text-light); font-size: 0.9rem; border-left: 3px solid transparent; transition: 0.3s; }
+        .dropdown-menu li a:hover { background: rgba(255, 255, 255, 0.03); color: var(--primary); border-left: 3px solid var(--primary); padding-left: 25px; }
+        .cta-btn-nav { padding: 8px 20px !important; border: 1px solid var(--primary); color: var(--primary) !important; border-radius: 4px; height: auto; }
+        .cta-btn-nav:hover { background: var(--primary); color: var(--bg-dark) !important; }
+
+        /* --- MAIN CONTENT STYLES --- */
+        .main-container {
+            margin-top: 100px;
+            padding-bottom: 80px;
+        }
+
+        .section-wrapper {
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 5%;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .section-title span { color: var(--secondary); }
+        .section-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .highlight-text { color: var(--secondary); }
+        .section-desc {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        /* --- 1. PROACTIVE & PREDICTIVE BUBBLES --- */
+        .bubble-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            background: rgba(255,255,255,0.02);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .bubble-card {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--primary); /* Cyan border */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.15);
+            transition: transform 0.3s;
+        }
+        .bubble-card:nth-child(even) { border-color: #ff4757; box-shadow: 0 0 20px rgba(255, 71, 87, 0.15); }
+        .bubble-card:nth-child(3) { border-color: #ffa502; box-shadow: 0 0 20px rgba(255, 165, 2, 0.15); }
+
+        .bubble-card:hover { transform: scale(1.05); }
+
+        .bubble-card i { font-size: 2rem; margin-bottom: 10px; color: var(--text-light); }
+        .bubble-card p { font-size: 0.85rem; font-weight: 600; line-height: 1.2; text-transform: uppercase; }
+
+        /* --- 2. HUMINT GRID --- */
+        .humint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: left;
+            border-left: 4px solid var(--secondary);
+            transition: 0.3s;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .feature-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-5px);
+        }
+
+        .icon-circle {
+            min-width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 119, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            border: 1px solid rgba(0, 119, 255, 0.3);
+        }
+
+        .card-content h4 {
+            color: var(--secondary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .card-content p { font-size: 0.9rem; color: var(--text-gray); line-height: 1.5; }
+
+        /* --- 3. HARDENING STATS --- */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .stat-box {
+            background: linear-gradient(145deg, #1a1d26, #111318);
+            padding: 30px;
+            border-radius: 15px;
+            width: 400px;
+            text-align: left;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-number {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            line-height: 1;
+        }
+        
+        .stat-text { font-size: 0.95rem; color: var(--text-light); }
+        .source-text { font-size: 0.7rem; color: var(--text-gray); display: block; margin-top: 5px; text-transform: uppercase; }
+
+        .stat-illustration {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            opacity: 0.8;
+            border-radius: 10px;
+        }
+
+        /* --- 4. HACKING STEPS --- */
+        .hacking-section {
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #0d1a2b 100%);
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .step-intro-text {
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+
+        .steps-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin-top: 60px;
+        }
+
+        .badge-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ff4757;
+            box-shadow: 0 0 30px rgba(255, 71, 87, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 71, 87, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+        }
+
+        .steps-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .step-item {
+            text-align: center;
+            width: 140px;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            position: relative;
+        }
+        
+        .step-number-badge {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.8);
+            z-index: 0;
+        }
+
+        .step-item h5 {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* --- FOOTER CSS --- */
+        footer {
+            background: #050507;
+            padding: 60px 5% 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: auto;
+        }
+
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-col h3 { font-family: 'Rajdhani', sans-serif; margin-bottom: 20px; color: var(--text-light); }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { color: var(--text-gray); transition: 0.3s; }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+        .contact-info p { margin-bottom: 15px; color: var(--text-gray); font-size: 0.9rem; display: flex; gap: 10px; }
+        .contact-info i { color: var(--primary); margin-top: 3px;}
+        .copyright { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-gray); font-size: 0.8rem; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .section-title { font-size: 2rem; }
+            .bubble-container { gap: 20px; }
+            .steps-wrapper { flex-direction: column; }
+            .stats-container { flex-direction: column; align-items: center; }
+            .stat-box { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="nativesoc.html" class="active">NativeSOC <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="NativeARchitecture.html">NativeSOC Architecture</a></li>
+                        <li><a href="NativeApproach.html">NativeSOC Approach</a></li>
+                        <li><a href="NativeFeatures.html">NativeSOC Features</a></li>
+                        <li><a href="Whynative.html">Why NativeSOC</a></li>
+                        <li><a href="howitworks.html">How it works</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="academy.html">Academy <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="courses.html">Courses</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="vapt.html">VAPT <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="cyber.html">Cybersecurity</a></li>
+                    </ul>
+                </li>
+                <li><a href="partners.html">Partners</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html" class="cta-btn-nav">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-container">
+
+        <div class="section-wrapper">
+            <h1 class="section-title">Why <span>NativeSOC?</span></h1>
+            
+            <img src="https://static.wixstatic.com/media/b12bd8_31d75223cfed4736b91f2346e4f18dea~mv2.png/v1/fill/w_779,h_251,al_c,lg_1,q_85,enc_avif,quality_auto/pix%201.png" alt="Network Graphic" style="width: 100%; border-radius: 12px; margin-bottom: 40px; opacity: 0.8;">
+
+            <h2 class="section-subtitle">Robust <span class="highlight-text">Proactive</span> & <span class="highlight-text">Predictive</span></h2>
+            <p class="section-desc">
+                NativeSOC uses multiple tools for security monitoring, file integrity monitoring, and endpoint configuration assessment. Add to that the MITRE ATT&CK framework, which uses multiple tactics and many techniques being used by contemporary threat actors, helps to identify or indicate an attack in progress.
+            </p>
+
+            <div class="bubble-container">
+                <div class="bubble-card">
+                    <i class="fas fa-search"></i>
+                    <p>Security<br>Monitoring</p>
+                </div>
+                <div class="bubble-card">
+                    <i class="fas fa-file-shield"></i>
+                    <p>File-Integrity<br>Monitoring</p>
+                </div>
+                <div class="bubble-card">
+                    <i class="fas fa-sliders"></i>
+                    <p>System<br>Configuration<br>Assessment</p>
+                </div>
+                <div class="bubble-card">
+                    <i class="fas fa-project-diagram"></i>
+                    <p>MITRE<br>ATT&CK</p>
+                </div>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 0.85rem; color: var(--text-gray);">
+                MITRE Adversarial Tactics, Techniques, and Common Knowledge (ATT&CK). It is a well documented knowledge base of real-world threat actor actions and behaviors.
+            </p>
+        </div>
+
+        <div class="section-wrapper">
+            <h2 class="section-subtitle">HUMINT - <span class="highlight-text">Our Secret Sauce</span></h2>
+            <p class="section-desc">
+                The robust NativeSOC platform is ably supported with an expert driven "Human Intelligence" services from a state-of-art 24x7 SOC Centre. Cybersecurity skilled personnel deficit is a global issue. We at NativeSOC are domain experts creating a workforce of skilled personnel.
+            </p>
+
+            <div class="humint-grid">
+                <div class="feature-card">
+                    <div class="icon-circle"><i class="fas fa-shield-alt"></i></div>
+                    <div class="card-content">
+                        <h4>Service The Key</h4>
+                        <p>SECURITY OPERATIONS CENTER (SOC) is better when you have experts monitoring it 24x7.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon-circle"><i class="fas fa-server"></i></div>
+                    <div class="card-content">
+                        <h4>Vendor Agnostic</h4>
+                        <p>Any Firewall, Servers, EDR/End-point or any networking or Security devices. NativeSOC covers all.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon-circle"><i class="fas fa-layer-group"></i></div>
+                    <div class="card-content">
+                        <h4>Layered Security</h4>
+                        <p>Second LAYER of EDR! Over and above the existing EDR, helps in realtime Threat hunting by SOC analysts.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon-circle"><i class="fas fa-network-wired"></i></div>
+                    <div class="card-content">
+                        <h4>Advance Cybersecurity</h4>
+                        <p>SOAR & MITRE ATT&CK framework integrated for advance level of Cybersecurity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-wrapper">
+            <h2 class="section-subtitle">Hardening phase by <span class="highlight-text">SOC Analyst</span></h2>
+            <p class="section-desc">
+                Enterprises across the globe have some very deep concerns related to SIEM solutions; they are very complex to manage and are not truly Vendor Agnostic, and to top it, Cyber Security Professionals have major challenge keeping up with high number of Security Alerts.
+            </p>
+
+            <div class="stats-container">
+                <img src="https://static.wixstatic.com/media/b12bd8_bf461493521743c69af31d2fca385358~mv2.png/v1/fill/w_261,h_209,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/vec%201.png" alt="SOC Analyst" style="border-radius: 12px; height: 200px; object-fit: cover;">
+                
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="stat-box">
+                        <span class="stat-number">35%</span>
+                        <div>
+                            <p class="stat-text">of cyber security professionals say "keeping up with security volumes is difficult"</p>
+                            <span class="source-text">Source: www.coconline.com</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-box">
+                        <span class="stat-number">88%</span>
+                        <div>
+                            <p class="stat-text">of cyber professionals are facing challenges with their current SIEM setup</p>
+                            <span class="source-text">Source: Dimensional Research</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hacking-section">
+            <div class="section-wrapper" style="margin-bottom: 0;">
+                <h3 style="color: var(--text-light); text-transform: uppercase; letter-spacing: 2px; font-size: 1.1rem; margin-bottom: 10px;">No More <span class="highlight-text">Overwhelming Alert!</span></h3>
+                <h2 class="section-subtitle" style="font-size: 2.5rem;">Catch the Hacker in the act!</h2>
+                
+                <p class="step-intro-text">
+                    To initiate the service, the SOC Analysts at NativeSOC go through a hardening process to become acquainted with the IT infrastructure and specific requirements and ensure the right dashboards and observables are built for just the RIGHT ALERTS.
+                </p>
+
+                <div style="text-align: left; max-width: 1000px; margin: 0 auto;">
+                    <h3 style="font-family: 'Rajdhani', sans-serif; font-size: 1.8rem;">
+                        Platform enables NativeSOC Analyst<br>
+                        to DETECT & DEFEND at all<br>
+                        <span style="font-size: 3rem; font-weight: 700; color: var(--secondary);">5 Steps of HACKING.</span>
+                    </h3>
+                </div>
+
+                <div class="steps-wrapper">
+                    <div style="position: relative;">
+                         <img src="" class="badge-image" alt="Track the Hack Badge">
+                    </div>
+
+                    <div class="steps-flow">
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <span class="step-number-badge">1</span>
+                                <i class="fas fa-binoculars"></i>
+                            </div>
+                            <h5>Reconnaissance</h5>
+                        </div>
+
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <span class="step-number-badge">2</span>
+                                <i class="fas fa-crosshairs"></i>
+                            </div>
+                            <h5>Scanning</h5>
+                        </div>
+
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <span class="step-number-badge">3</span>
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <h5>Gaining Access</h5>
+                        </div>
+
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <span class="step-number-badge">4</span>
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h5>Maintaining Access</h5>
+                        </div>
+
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <span class="step-number-badge">5</span>
+                                <i class="fas fa-eraser"></i>
+                            </div>
+                            <h5>Clearing Tracks</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+                <p style="color: var(--text-gray); margin-top: 10px; font-size: 0.9rem;">
+                    Expert-driven Cyber Security Services for the modern digital landscape.
+                </p>
+            </div>
+            <div class="footer-col">
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="nativesoc.html">NativeSOC</a></li>
+                    <li><a href="academy.html">Academy</a></li>
+                    <li><a href="vapt.html">VAPT</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> sales@nativedefence.com</p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>
+                            <strong>AHMEDABAD</strong><br>
+                            D-311 Ganesh Glory 11, Jagatpur Rd,<br> 
+                            Near BSNL Office, Off S G Highway,<br>
+                            Ahmedabad, Gujarat 382470
+                        </span>
+                    </p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>
+                            <strong>KOLKATA</strong><br>
+                            8 BECK BAGAN ROW KOLKATA - 700017
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

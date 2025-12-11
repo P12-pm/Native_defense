@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | NATIVEDEFENCE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #0037ff; /* Cyber Neon Green */
+            --secondary: #0077ff; /* Cyber Blue */
+            --bg-dark: #0a0b10;
+            --bg-card: #15171e;
+            --text-light: #e0e6ed;
+            --text-gray: #94a3b8;
+            --input-bg: #0d0f14;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+       /* --- UPDATED NAVIGATION CSS --- */
+header {
+    background: rgba(10, 11, 16, 0.95);
+    padding: 0 5%; /* Adjusted padding for better vertical alignment */
+    height: 80px;  /* Fixed height for stability */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 1px;
+}
+.logo span { color: var(--primary); }
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    height: 100%;
+    align-items: center;
+}
+
+/* Main Nav Item Style */
+.nav-links li {
+    position: relative; /* Essential for positioning the dropdown */
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links > li > a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-gray);
+    padding: 10px 0;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space for the dropdown arrow */
+}
+
+.nav-links > li > a:hover,
+.nav-links > li > a.active {
+    color: var(--primary);
+}
+
+/* Dropdown Arrow Icon */
+.fa-chevron-down {
+    font-size: 0.7rem;
+    transition: transform 0.3s;
+}
+
+.nav-links li:hover .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* --- DROPDOWN MENU STYLES --- */
+.dropdown-menu {
+    position: absolute;
+    top: 80px; /* Matches header height */
+    left: 0;
+    background: var(--bg-card);
+    min-width: 220px;
+    border-top: 2px solid var(--primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    border-radius: 0 0 5px 5px;
+    display: block; /* Overrides default ul display */
+    padding: 10px 0;
+}
+
+/* Show Dropdown on Hover */
+.nav-links li:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Dropdown Links */
+.dropdown-menu li {
+    display: block;
+    height: auto;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 12px 20px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
+    transition: 0.3s;
+}
+
+.dropdown-menu li a:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--primary);
+    border-left: 3px solid var(--primary);
+    padding-left: 25px; /* Slide effect */
+}
+
+/* Button Reset */
+.cta-btn-nav {
+    padding: 8px 20px !important;
+    border: 1px solid var(--primary);
+    color: var(--primary) !important;
+    border-radius: 4px;
+    height: auto;
+}
+.cta-btn-nav:hover {
+    background: var(--primary);
+    color: var(--bg-dark) !important;
+}
+        /* --- HERO SECTION --- */
+        .page-hero {
+            padding: 140px 5% 40px;
+            background: radial-gradient(circle at top right, #1a1d29 0%, var(--bg-dark) 70%);
+            text-align: center;
+        }
+
+        .page-hero h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- CONTACT CONTAINER --- */
+        .contact-section {
+            padding: 40px 10% 80px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        /* Left Side: Info */
+        .contact-info-box {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            height: 100%;
+        }
+
+        .info-item {
+            margin-bottom: 30px;
+        }
+
+        .info-item h3 {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-item p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Right Side: Form */
+        .contact-form-box {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            border-top: 4px solid var(--primary);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .full-width { grid-column: span 2; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 15px;
+            color: white;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.1);
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #050507;
+            padding: 60px 5% 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-family: 'Rajdhani', sans-serif;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+
+        .contact-info-footer p {
+            margin-bottom: 15px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 10px;
+        }
+        .contact-info-footer i { color: var(--primary); margin-top: 3px;}
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 850px) {
+            .nav-links { display: none; }
+            .contact-section { grid-template-columns: 1fr; padding: 40px 5% 80px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+    <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            
+            <li>
+                <a href="nativesoc.html" class="active">NativeSOC <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="NativeARchitecture.html"></a>NativeSOC Architecture </li>
+                    <li><a href="NativeApproach.html">NativeSOC Approach</a></li>
+                    <li><a href="NativeFeatures.html">NativeSOC Features</a></li>
+                    <li><a href="Whynative.html"> Why NativeSOC </a></li>
+                    <li><a href="howitworks.html">How it works</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="academy.html">Academy <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="courses.html">Courses</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="vapt.html">VAPT <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="cyber.html">Cybersecurity</a></li>
+                </ul>
+            </li>
+
+            <li><a href="partners.html">Partners</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="contact.html" class="cta-btn-nav">Contact</a></li>
+        </ul>
+    </nav>
+    <div style="color: white; display: none;" class="mobile-menu"><i class="fas fa-bars"></i></div>
+</header>
+
+    <section class="page-hero">
+        <h1>Contact Us</h1>
+        <p style="color: var(--text-gray);">Get in touch with our security experts.</p>
+    </section>
+
+    <section class="contact-section">
+        
+        <div class="contact-info-box">
+            <div class="info-item">
+                <h3><i class="fas fa-map-marker-alt"></i> Headquarters</h3>
+                <p><strong>Ahmedabad</strong><br>
+                D-311 Ganesh Glory 11, Jagatpur Rd,<br>
+                Near BSNL Office, Off S G Highway,<br>
+                Ahmedabad, Gujarat 382470</p>
+            </div>
+
+            <div class="info-item">
+                <h3><i class="fas fa-envelope"></i> Email Us</h3>
+                <p>info@nativedefence.com<br>sales@nativedefence.com</p>
+            </div>
+
+            <div class="info-item">
+                <h3><i class="fas fa-clock"></i> Operations</h3>
+                <p>Technical & SOC Operations: Ahmedabad<br>
+                Sales & Marketing: Mumbai</p>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3670.5678!2d72.5!3d23.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDAwJzAwLjAiTiA3MsKwMDAnMDAuMCJF!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin" 
+                    width="100%" height="200" style="border:0; border-radius: 6px; opacity: 0.8;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+        <div class="contact-form-box">
+            <form>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" placeholder="John">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" placeholder="Doe">
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="+91 98765 43210">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" placeholder="Inquiry about VAPT Services">
+                </div>
+
+                <div class="form-group">
+                    <label>Comment</label>
+                    <textarea rows="5" placeholder="How can we help you?"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Inquiry</button>
+            </form>
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+                <p style="color: var(--text-gray); margin-top: 10px; font-size: 0.9rem;">
+                    NativeSOC is an expert-driven Cyber Security Services company, with its Technical and SOC operations based out of Ahmedabad and Sales and Marketing driving from Mumbai.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="nativesoc.html">NativeSOC</a></li>
+                    <li><a href="academy.html">Academy</a></li>
+                    <li><a href="vapt.html">VAPT</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <div class="contact-info-footer">
+                    <p><i class="fas fa-envelope"></i> sales@nativedefence.com</p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>
+                            <strong>AHMEDABAD</strong><br>
+                            D-311 Ganesh Glory 11, Jagatpur Rd,<br> 
+                            Near BSNL Office, Off S G Highway,<br>
+                            Ahmedabad, Gujarat 382470
+                        </span>
+                    </p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>
+                            <strong>KOLKATA</strong><br>
+                            8 BECK BAGAN ROW KOLKATA - 700017
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

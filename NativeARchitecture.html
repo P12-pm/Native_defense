@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NativeSOC | Architecture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #0037ff; /* Cyber Neon Green */
+            --secondary: #0077ff; /* Cyber Blue */
+            --bg-dark: #0a0b10;
+            --bg-card: #15171e;
+            --text-light: #e0e6ed;
+            --text-gray: #94a3b8;
+            --info-box-bg: #82caff; /* Light Blue for the info box */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+       /* --- NAVIGATION CSS (UNCHANGED) --- */
+        header {
+            background: rgba(10, 11, 16, 0.95);
+            padding: 0 5%;
+            height: 80px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: 1px;
+        }
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .nav-links li {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links > li > a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-gray);
+            padding: 10px 0;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-links > li > a:hover,
+        .nav-links > li > a.active {
+            color: var(--primary);
+        }
+
+        .fa-chevron-down {
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-links li:hover .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown-menu {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            background: var(--bg-card);
+            min-width: 220px;
+            border-top: 2px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            border-radius: 0 0 5px 5px;
+            display: block;
+            padding: 10px 0;
+        }
+
+        .nav-links li:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            display: block;
+            height: auto;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            transition: 0.3s;
+        }
+
+        .dropdown-menu li a:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+            padding-left: 25px;
+        }
+
+        .cta-btn-nav {
+            padding: 8px 20px !important;
+            border: 1px solid var(--primary);
+            color: var(--primary) !important;
+            border-radius: 4px;
+            height: auto;
+        }
+        .cta-btn-nav:hover {
+            background: var(--primary);
+            color: var(--bg-dark) !important;
+        }
+
+        /* --- CONTENT SECTION STYLES --- */
+        .content-wrapper {
+            margin-top: 100px; /* Space for fixed header */
+            padding-bottom: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-block {
+            width: 90%;
+            max-width: 1200px;
+            margin-bottom: 60px;
+        }
+
+        /* Section Title */
+        .topic-title {
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        
+        .topic-title span {
+            color: var(--secondary);
+        }
+
+        /* Top Server Room Image */
+        .server-banner {
+            width: 100%;
+            height: 250px;
+            background: url('https://images.unsplash.com/photo-1558494949-ef526b0042a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .server-banner::after {
+            content: '';
+            position: absolute;
+            top:0; left:0; right:0; bottom:0;
+            background: linear-gradient(to right, rgba(10,11,16,0.7), transparent);
+            border-radius: 10px;
+        }
+
+        /* Architecture Diagram Placeholder */
+        .arch-diagram-container {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        /* Represents the image of the diagram from your screenshot */
+        .arch-diagram-img {
+            max-width: 100%;
+            height: auto;
+            /* In a real scenario, you would put the src of the diagram here. 
+               For now, we use a placeholder icon representation */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-gray);
+        }
+        
+        .arch-diagram-img i {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        /* Blue Info Box */
+        .info-box-blue {
+            background-color: var(--info-box-bg);
+            color: #000;
+            text-align: center;
+            padding: 20px 40px;
+            border-radius: 50px; /* Pill shape */
+            font-weight: 600;
+            font-size: 1rem;
+            max-width: 900px;
+            margin: 0 auto 60px auto;
+            box-shadow: 0 0 20px rgba(130, 202, 255, 0.3);
+        }
+
+        /* Certifications Section */
+        .cert-section-title {
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .cert-box {
+            border: 1px solid var(--secondary);
+            background: rgba(0, 119, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px 50px;
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cert-box h4 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            border-bottom: 1px solid rgba(0, 119, 255, 0.3);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .cert-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .cert-lists {
+            display: flex;
+            gap: 60px;
+        }
+
+        .cert-lists ul li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .cert-lists ul li::before {
+            content: '•';
+            color: var(--text-light);
+            margin-right: 10px;
+        }
+
+        .cert-icon-wrapper {
+            position: relative;
+            font-size: 5rem;
+            color: #5da9ff;
+        }
+
+        .cert-icon-wrapper .fa-lock {
+            font-size: 2rem;
+            color: #ffcc00;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* --- FOOTER CSS (UNCHANGED) --- */
+        footer {
+            background: #050507;
+            padding: 60px 5% 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-family: 'Rajdhani', sans-serif;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .contact-info i { color: var(--primary); margin-top: 3px;}
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .cert-lists { flex-direction: column; gap: 20px; }
+            .cert-grid { flex-direction: column-reverse; align-items: center; gap: 30px; }
+            .cert-box { padding: 20px; }
+            .info-box-blue { border-radius: 15px; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                
+                <li>
+                    <a href="nativesoc.html" class="active">NativeSOC <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="NativeARchitecture.html">NativeSOC Architecture</a></li>
+                        <li><a href="NativeApproach.html">NativeSOC Approach</a></li>
+                        <li><a href="NativeFeatures.html">NativeSOC Features</a></li>
+                        <li><a href="Whynative.html">Why NativeSOC</a></li>
+                        <li><a href="howitworks.html">How it works</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="academy.html">Academy <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="courses.html">Courses</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="vapt.html">VAPT <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="cyber.html">Cybersecurity</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="partners.html">Partners</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html" class="cta-btn-nav">Contact</a></li>
+            </ul>
+        </nav>
+        <div style="color: white; display: none;" class="mobile-menu"><i class="fas fa-bars"></i></div>
+    </header>
+
+    <div class="content-wrapper">
+
+        <section class="section-block">
+            <h2 class="topic-title">NativeSOC <span>Architecture</span></h2>
+            
+            <div class="server-banner" style="align-items: center;" >
+                <img src="https://static.wixstatic.com/media/b12bd8_67e10dd415ab4e6e973fe7a1e796b305~mv2.png/v1/fill/w_779,h_251,al_c,lg_1,q_85,enc_avif,quality_auto/pix%201.png" style="align-items: center;" >
+            </div>
+
+            <div class="arch-diagram-container">
+                <div class="arch-diagram-img">
+                    <img src="https://static.wixstatic.com/media/b12bd8_676aeee1de7d4261a34bb017aca1b684~mv2.png/v1/fill/w_692,h_719,al_c,lg_1,q_90,enc_avif,quality_auto/chart.png" class="fas fa-project-diagram"></i>
+                    <p>Place your Architecture Diagram Image Here</p>
+                </div>
+            </div>
+
+            <div class="info-box-blue">
+                <p>NATIVESOC architecture is simple yet robust with co-related SOAR platform to counter new age impending attacks.</p>
+            </div>
+
+            <h3 class="cert-section-title">Secured & Certified CLOUD</h3>
+            
+            <div class="cert-box">
+                <h4>ISMS CLOUD SECURITY CERTIFICATION</h4>
+                <div class="cert-grid">
+                    <div class="cert-lists">
+                        <ul>
+                            <li>ISO/IEC 27017:2015</li>
+                            <li>ISO 9001:2015</li>
+                            <li>PCI-DSS</li>
+                            <li>EMS</li>
+                        </ul>
+                        <ul>
+                            <li>ISO/IEC 27018:2019</li>
+                            <li>ISO/IEC 20000-1:2018</li>
+                            <li>ISO/IEC 27001:2013</li>
+                            <li>OHS</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cert-icon-wrapper">
+                        <i class="fas fa-cloud"></i>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+                <p style="color: var(--text-gray); margin-top: 10px; font-size: 0.9rem;">
+                    Expert-driven Cyber Security Services for the modern digital landscape.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="nativesoc.html">NativeSOC</a></li>
+                    <li><a href="academy.html">Academy</a></li>
+                    <li><a href="vapt.html">VAPT</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> sales@nativedefence.com</p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>
+                            <strong>AHMEDABAD</strong><br>
+                            D-311 Ganesh Glory 11, Jagatpur Rd,<br> 
+                            Near BSNL Office, Off S G Highway,<br>
+                            Ahmedabad, Gujarat 382470
+                        </span>
+                    </p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>
+                            <strong>KOLKATA</strong><br>
+                            8 BECK BAGAN ROW KOLKATA - 700017
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

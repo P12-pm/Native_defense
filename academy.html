@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy | NATIVEDEFENCE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #0037ff; /* Cyber Neon Green */
+            --secondary: #0077ff; /* Cyber Blue */
+            --bg-dark: #0a0b10;
+            --bg-card: #15171e;
+            --text-light: #e0e6ed;
+            --text-gray: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+       /* --- UPDATED NAVIGATION CSS --- */
+header {
+    background: rgba(10, 11, 16, 0.95);
+    padding: 0 5%; /* Adjusted padding for better vertical alignment */
+    height: 80px;  /* Fixed height for stability */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 1px;
+}
+.logo span { color: var(--primary); }
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    height: 100%;
+    align-items: center;
+}
+
+/* Main Nav Item Style */
+.nav-links li {
+    position: relative; /* Essential for positioning the dropdown */
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links > li > a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-gray);
+    padding: 10px 0;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space for the dropdown arrow */
+}
+
+.nav-links > li > a:hover,
+.nav-links > li > a.active {
+    color: var(--primary);
+}
+
+/* Dropdown Arrow Icon */
+.fa-chevron-down {
+    font-size: 0.7rem;
+    transition: transform 0.3s;
+}
+
+.nav-links li:hover .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* --- DROPDOWN MENU STYLES --- */
+.dropdown-menu {
+    position: absolute;
+    top: 80px; /* Matches header height */
+    left: 0;
+    background: var(--bg-card);
+    min-width: 220px;
+    border-top: 2px solid var(--primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    border-radius: 0 0 5px 5px;
+    display: block; /* Overrides default ul display */
+    padding: 10px 0;
+}
+
+/* Show Dropdown on Hover */
+.nav-links li:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Dropdown Links */
+.dropdown-menu li {
+    display: block;
+    height: auto;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 12px 20px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
+    transition: 0.3s;
+}
+
+.dropdown-menu li a:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--primary);
+    border-left: 3px solid var(--primary);
+    padding-left: 25px; /* Slide effect */
+}
+
+/* Button Reset */
+.cta-btn-nav {
+    padding: 8px 20px !important;
+    border: 1px solid var(--primary);
+    color: var(--primary) !important;
+    border-radius: 4px;
+    height: auto;
+}
+.cta-btn-nav:hover {
+    background: var(--primary);
+    color: var(--bg-dark) !important;
+}
+        /* --- HERO SECTION --- */
+        .academy-hero {
+            padding: 140px 5% 80px;
+            background: radial-gradient(circle at top right, #1a1d29 0%, var(--bg-dark) 70%);
+            text-align: center;
+        }
+
+        .academy-hero h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #fff, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .academy-hero p {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        /* --- MISSION & USP GRID --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 5% 80px;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .info-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* --- COURSES SECTION --- */
+        .courses-section {
+            background: #0d0f14;
+            padding: 80px 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            color: var(--text-light);
+        }
+        .section-header h2 span { color: var(--secondary); }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .course-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .course-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 119, 255, 0.15);
+            border-color: var(--secondary);
+        }
+
+        .course-header {
+            background: rgba(0, 119, 255, 0.1);
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .course-header h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            color: var(--secondary);
+        }
+
+        .course-body {
+            padding: 30px;
+        }
+
+        .course-body p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .course-btn {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 2px;
+        }
+        .course-btn:hover { color: var(--primary); }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #050507;
+            padding: 60px 5% 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-family: 'Rajdhani', sans-serif;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 10px;
+        }
+        .contact-info i { color: var(--primary); margin-top: 3px;}
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .academy-hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+   <header>
+    <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            
+            <li>
+                <a href="nativesoc.html" class="active">NativeSOC <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="NativeARchitecture.html"></a>NativeSOC Architecture </li>
+                    <li><a href="NativeApproach.html">NativeSOC Approach</a></li>
+                    <li><a href="NativeFeatures.html">NativeSOC Features</a></li>
+                    <li><a href="Whynative.html"> Why NativeSOC </a></li>
+                    <li><a href="howitworks.html">How it works</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="academy.html">Academy <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="courses.html">Courses</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="vapt.html">VAPT <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="cyber.html">Cybersecurity</a></li>
+                </ul>
+            </li>
+
+            <li><a href="partners.html">Partners</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="contact.html" class="cta-btn-nav">Contact</a></li>
+        </ul>
+    </nav>
+    <div style="color: white; display: none;" class="mobile-menu"><i class="fas fa-bars"></i></div>
+</header>
+
+    <section class="academy-hero">
+        <h1>Empowering Cybersecurity Excellence</h1>
+        <p>Welcome to NATIVEDEFENCE, your trusted partner in the realm of cybersecurity. Originating from the vibrant city of Ahmedabad, we stand at the forefront with a singular focus on providing cutting-edge cybersecurity courses.</p>
+    </section>
+
+    <section class="info-grid">
+        <div class="info-card">
+            <h3><i class="fas fa-shield-alt"></i> Our Mission</h3>
+            <p>To fortify the nation's cybersecurity landscape. With a team boasting two decades of experience, we bring a wealth of expertise to safeguard and defend against evolving digital threats.</p>
+        </div>
+
+        <div class="info-card">
+            <h3><i class="fas fa-microchip"></i> Cutting-Edge Tech</h3>
+            <p>Our in-house team has developed a state-of-the-art Security Operations Center (SOC), proudly made in India. Hosted on the cloud and equipped with both on-premise and online solutions.</p>
+        </div>
+
+        <div class="info-card">
+            <h3><i class="fas fa-chalkboard-teacher"></i> Expert Faculty</h3>
+            <p>Learn from seasoned professionals, gold medalists, and industry experts. Every student receives top-tier education and practical insights from the best in the field.</p>
+        </div>
+    </section>
+
+    <section class="courses-section">
+        <div class="section-header">
+            <h2>NATIVEDEFENCE <span>Academy</span></h2>
+            <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto;">Experience cybersecurity education like never before with three distinct courses tailored to meet the dynamic challenges of the digital era.</p>
+        </div>
+
+        <div class="course-grid">
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Certified Practitioner</h3>
+                </div>
+                <div class="course-body">
+                    <p>Dive into the realm of cybersecurity. Our cutting-edge EdTech solutions transform learning into a dynamic experience, providing hands-on training and real-world scenarios.</p>
+                    <p>Become a certified practitioner, backed by two decades of cybersecurity expertise.</p>
+                    <a href="#" class="course-btn">View Curriculum <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Certified Pioneers</h3>
+                </div>
+                <div class="course-body">
+                    <p>Forge new paths in cybersecurity. Our innovative platform empowers you to explore advanced strategies and emerging technologies.</p>
+                    <p>Join a community of pioneers, guided by seasoned professionals, and position yourself at the forefront of innovation.</p>
+                    <a href="#" class="course-btn">View Curriculum <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Certified Pursuit</h3>
+                </div>
+                <div class="course-body">
+                    <p>Pursue excellence through our comprehensive EdTech solutions. Covering foundational principles to advanced threat detection, this module equips you with the skills needed to excel.</p>
+                    <p>Chart your path to success in the digital landscape with NATIVEDEFENCE.</p>
+                    <a href="#" class="course-btn">View Curriculum <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+                <p style="color: var(--text-gray); margin-top: 10px; font-size: 0.9rem;">
+                    Expert-driven Cyber Security Services for the modern digital landscape.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="nativesoc.html">NativeSOC</a></li>
+                    <li><a href="academy.html">Academy</a></li>
+                    <li><a href="vapt.html">VAPT</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> sales@nativedefence.com</p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>
+                            <strong>AHMEDABAD</strong><br>
+                            D-311 Ganesh Glory 11, Jagatpur Rd,<br> 
+                            Near BSNL Office, Off S G Highway,<br>
+                            Ahmedabad, Gujarat 382470
+                        </span>
+                    </p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>
+                            <strong>KOLKATA</strong><br>
+                            8 BECK BAGAN ROW KOLKATA - 700017
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NativeSOC | XDR & SIEM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #0037ff; /* Cyber Neon Green */
+            --secondary: #0077ff; /* Cyber Blue */
+            --bg-dark: #0a0b10;
+            --bg-card: #15171e;
+            --text-light: #e0e6ed;
+            --text-gray: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+       /* --- NAVIGATION CSS --- */
+        header {
+            background: rgba(10, 11, 16, 0.95);
+            padding: 0 5%;
+            height: 80px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: 1px;
+        }
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .nav-links li {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links > li > a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-gray);
+            padding: 10px 0;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-links > li > a:hover,
+        .nav-links > li > a.active {
+            color: var(--primary);
+        }
+
+        .fa-chevron-down {
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-links li:hover .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown-menu {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            background: var(--bg-card);
+            min-width: 220px;
+            border-top: 2px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            border-radius: 0 0 5px 5px;
+            display: block;
+            padding: 10px 0;
+        }
+
+        .nav-links li:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            display: block;
+            height: auto;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            transition: 0.3s;
+        }
+
+        .dropdown-menu li a:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+            padding-left: 25px;
+        }
+
+        .cta-btn-nav {
+            padding: 8px 20px !important;
+            border: 1px solid var(--primary);
+            color: var(--primary) !important;
+            border-radius: 4px;
+            height: auto;
+        }
+        .cta-btn-nav:hover {
+            background: var(--primary);
+            color: var(--bg-dark) !important;
+        }
+
+        /* --- CONTENT SECTION STYLES (Based on Image Layout) --- */
+        .content-wrapper {
+            margin-top: 100px; /* Space for fixed header */
+            padding-bottom: 80px;
+        }
+
+        .section-block {
+            padding: 40px 10%;
+            margin-bottom: 60px;
+        }
+
+        /* Section Title */
+        .topic-title {
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Hero Image Placeholder */
+        .hero-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #15171e 0%, #0d0f14 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .hero-placeholder i {
+            font-size: 5rem;
+            color: rgba(255,255,255,0.05);
+        }
+        
+        /* Add overlay effect to mimic image */
+        .hero-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 20%, var(--bg-dark) 100%);
+        }
+
+        /* Text Description */
+        .description-text {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 50px;
+            color: var(--text-gray);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        /* Split Layout (Image Left, List Right) */
+        .feature-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            background: radial-gradient(circle at center, #15171e 0%, transparent 70%);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        /* Feature Image Placeholder */
+        .feature-img-placeholder {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border: 1px solid rgba(255, 51, 102, 0.3); /* Reddish tint for XDR/Breach */
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.1);
+        }
+
+        .siem-img-style {
+            border-color: rgba(0, 119, 255, 0.3); /* Blue tint for SIEM */
+            box-shadow: 0 0 20px rgba(0, 119, 255, 0.1);
+        }
+
+        .feature-img-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .alert-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Feature List */
+        .feature-list ul {
+            padding-left: 20px;
+        }
+
+        .feature-list li {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-list li::before {
+            content: '•';
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-right: 15px;
+            line-height: 0;
+        }
+
+        /* --- FOOTER CSS --- */
+        footer {
+            background: #050507;
+            padding: 60px 5% 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-family: 'Rajdhani', sans-serif;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .contact-info i { color: var(--primary); margin-top: 3px;}
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .feature-split { grid-template-columns: 1fr; padding: 20px; }
+            .hero-placeholder { height: 200px; }
+            .section-block { padding: 40px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                
+                <li>
+                    <a href="nativesoc.html" class="active">NativeSOC <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="NativeARchitecture.html">NativeSOC Architecture</a></li>
+                        <li><a href="NativeApproach.html">NativeSOC Approach</a></li>
+                        <li><a href="NativeFeatures.html">NativeSOC Features</a></li>
+                        <li><a href="Whynative.html">Why NativeSOC</a></li>
+                        <li><a href="howitworks.html">How it works</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="academy.html">Academy <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="courses.html">Courses</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="vapt.html">VAPT <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="cyber.html">Cybersecurity</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="partners.html">Partners</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html" class="cta-btn-nav">Contact</a></li>
+            </ul>
+        </nav>
+        <div style="color: white; display: none;" class="mobile-menu"><i class="fas fa-bars"></i></div>
+    </header>
+
+    <div class="content-wrapper">
+
+        <section class="section-block">
+            <h2 class="topic-title" style="color: #00a8e8;">XDR</h2>
+            
+            <div class="hero-placeholder">
+                <img src="https://static.wixstatic.com/media/b12bd8_aaf641d831244266ac7deac70698baa9~mv2.png/v1/fill/w_839,h_270,al_c,lg_1,q_85,enc_avif,quality_auto/pix%201.png" class="fas fa-keyboard"></i> </div>
+
+            <p class="description-text">
+                The NativeSOC Extended Detection and Response (XDR) platform provides a comprehensive security solution that detects, analyzes, and responds to threats across multiple IT infrastructure layers. NativeSOC collects telemetry from endpoints, network devices, cloud workloads, third-party APIs, and other sources for unified security monitoring and protection.
+            </p>
+
+            <div class="feature-split">
+                <div class="feature-img-placeholder">
+                    <img src="https://static.wixstatic.com/media/b12bd8_786a0a41388045ceb2044191f56c31c4~mv2.png/v1/fill/w_719,h_338,al_c,lg_1,q_85,enc_avif,quality_auto/pix%202.png" class="fas fa-exclamation-triangle" style="color: #ff3366;"></i>
+                    <span class="alert-text" style="color: #ff3366; text-shadow: 0 0 10px #ff3366;">BREACHED</span>
+                </div>
+                
+                <div class="feature-list">
+                    <ul>
+                        <li>Threat Hunting</li>
+                        <li>Behavioral Analysis</li>
+                        <li>Automated Response</li>
+                        <li>Cloud Workload Protection</li>
+                        <li>Threat Intelligence</li>
+                        <li>Compliance and Reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block">
+            <h2 class="topic-title" style="color: #0056b3;">SIEM</h2>
+            
+            <div class="hero-placeholder">
+                <img src="https://static.wixstatic.com/media/b12bd8_68a3bf5a81ed45dd9b435a057509920e~mv2.jpg/v1/fill/w_839,h_270,al_c,lg_1,q_80,enc_avif,quality_auto/pix%201.jpg" class="fas fa-desktop"></i> </div>
+
+            <p class="description-text">
+                The NativeSOC Security Information and Event Management (SIEM) solution is a centralized platform for aggregating and analyzing telemetry in real time for threat detection and compliance. NativeSOC collects event data from various sources like endpoints, network devices, cloud workloads, and applications for broader security coverage.
+            </p>
+
+            <div class="feature-split">
+                <div class="feature-img-placeholder siem-img-style">
+                    <img src="https://static.wixstatic.com/media/b12bd8_5a0b7cd79cbb4fd98d9dc1fd75794b3c~mv2.jpg/v1/fill/w_718,h_338,al_c,lg_1,q_80,enc_avif,quality_auto/pix%202.jpg" class="fas fa-user-shield" style="color: #0077ff;"></i>
+                    <span class="alert-text" style="color: #0077ff; font-size: 1rem; margin-top: 10px;">Login / Auth</span>
+                </div>
+                
+                <div class="feature-list">
+                    <ul>
+                        <li>Security Log Analysis</li>
+                        <li>Vulnerability Detection</li>
+                        <li>Security Configuration Assessment</li>
+                        <li>Regulatory Compliance</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo"><img src="https://static.wixstatic.com/media/b12bd8_041938cd6f734a0aa2f940d3ef359f90~mv2.png/v1/fill/w_468,h_154,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NATIVEDEFENCE_Logo1.png" width="140px" height="50px"></div>
+                <p style="color: var(--text-gray); margin-top: 10px; font-size: 0.9rem;">
+                    Expert-driven Cyber Security Services for the modern digital landscape.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="nativesoc.html">NativeSOC</a></li>
+                    <li><a href="academy.html">Academy</a></li>
+                    <li><a href="vapt.html">VAPT</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> sales@nativedefence.com</p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>
+                            <strong>AHMEDABAD</strong><br>
+                            D-311 Ganesh Glory 11, Jagatpur Rd,<br> 
+                            Near BSNL Office, Off S G Highway,<br>
+                            Ahmedabad, Gujarat 382470
+                        </span>
+                    </p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>
+                            <strong>KOLKATA</strong><br>
+                            8 BECK BAGAN ROW KOLKATA - 700017
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
